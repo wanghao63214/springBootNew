@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.mapper.MtCompletedOrderMapper_Manual">
+
+  <sql id="Base_Column_List">
+    id, jjy_bill_id, order_id, order_create_time, order_completed_time, wm_order_id_view,
+    app_id, app_poi_code, wm_poi_id, wm_poi_name, wm_poi_address, wm_poi_phone, recipient_address,
+    recipient_phone, recipient_name, shipping_fee, total, original_price, caution, shipper_phone,
+    status, city_id, has_invoiced, invoice_title, taxpayer_id, ctime, utime, delivery_time,
+    is_third_shipping, pay_type, pick_type, latitude, longitude, day_seq, is_favorites,
+    is_poi_first_order, dinners_number, logistics_code, avg_send_time, package_bag_money,
+    sig, jjy_order_type, jjy_diff_type, jjy_push_type, total_tmp, original_price_tmp,
+    create_time
+  </sql>
+
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <select id="selectListMap" parameterType="com.dao.beans.MtCompletedOrderExample" resultType="java.util.HashMap">
+
+    select
+    <include refid="Base_Column_List"/>
+    from mt_completed_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    order by create_time desc
+
+  </select>
+
+  <select id="selectFoodDetailsListMap" parameterType="java.util.Map" resultType="java.util.HashMap">
+
+    select o.order_id, group_concat(d.food_name) food_name_check, o.recipient_phone recipient_phone,
+    o.order_completed_time order_completed_time, o.day_seq day_seq, o.recipient_name recipient_name
+    from  mt_completed_order o, mt_order_food_detail d
+    where o.order_id = d.order_id and order_completed_time between #{dateFrom} and #{dateEnd}
+    group by o.order_id, o.recipient_phone, o.order_completed_time, o.day_seq, o.recipient_name  HAVING 1=1
+      <if test="foodNameOne != null and foodNameOne != &quot;&quot;">
+        and food_name_check like CONCAT('%','${foodNameOne}','%' )
+      </if>
+      <if test="foodNameTwo !=null and foodNameTwo != &quot;&quot; ">
+        and food_name_check like CONCAT('%','${foodNameTwo}','%' )
+      </if>
+      <if test="foodNameThree !=null and foodNameThree !=  &quot;&quot;">
+        and food_name_check like CONCAT('%','${foodNameThree}','%' )
+      </if>
+    order by o.order_completed_time desc
+  </select>
+</mapper>

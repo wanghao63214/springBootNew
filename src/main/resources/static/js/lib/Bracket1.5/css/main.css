@@ -1,0 +1,74 @@
+﻿*{ margin:0; padding:0; list-style:none;}
+a{ text-decoration:none;}
+a,a:hover,a:focus{ text-decoration:none;}
+ul{list-style:none}
+th{text-align:left;}
+.cl:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0}
+.cl{*zoom:1}
+.fl{float:left!important;}
+.fr{float:right!important;}
+.text-l{text-align:left;}
+.text-c{text-align:center;}
+.text-r{text-align:right;}
+.width50{width:50%;}
+.width100{width:100%;}
+.pd20{padding: 20px;}
+.pdtb20{padding-top:20px;padding-bottom:20px;}
+.mt10{margin-top: 10px;}
+.mt20{margin-top: 20px;}
+.mt30{margin-top: 30px;}
+.mr10{margin-right:10px;}
+.mr50{margin-right:50px;}
+.mtb10{margin-top: 10px;margin-bottom:10px;}
+.ml10{margin-left:10px;}
+.disp-bk{display:block;}
+.disp-no{display:none!important;}
+.cr-red{color:red;}
+.fwt-b{font-weight:bolder;}
+.unicom-ico{width:106px;height:64px;background:url("i/logo.png");display:inline-block;}
+.logopanel {padding: 5px;background: #fff;}
+.main-title{text-align:left;font-size: 24px;color: black;line-height: 45px;padding-left: 50px;font-family: "Microsoft YaHei" ! important;text-shadow: 3px 3px 2px #aaa;}
+.modal-lg {width: 900px;}
+.modal-sm {width: 300px;}
+.modal-dialog {margin: 30px auto;}
+.h40{height:40px;}
+.h42{height:42px;}
+.lh42{line-height:42px;}
+
+.mainpanel2 {background: #e4e7ea;min-height: 1000px;}
+.log-detail-title{margin-bottom: 20px;font-size: 18px;color: black;}
+.log-detail-title div{margin-right:50px;}
+
+.exportExecl{margin-top:10px;margin-right:10px;}
+.border-e{border:1px solid #eee;}
+.pagination{margin:0;}
+.main{width:99%;height:500px;padding: 20px;}
+/**.radio{border: 1px solid #ccc;padding: 10px 10px 5px 10px;border-radius:5px;}
+.radio div{padding:0 20px;}**/
+.fix-item{font-size: 12px;color: #fff;padding: 1px 6px;border-radius: 0px;margin-top: 5px;margin-bottom: 5px;margin-left: 0px;margin-right: 4px;background: #45a3e1;}
+.del-item{font-size: 12px;color: #fff;padding: 1px 6px;border-radius: 0px;margin-top: 5px;margin-bottom: 5px;margin-left: 0px;margin-right: 4px;background: #e75a4c;}
+.add-item{color:white!important;}
+.form-bordered .form-group{border-top:0;}
+.modal-body{text-align:center;}
+.search-box{border-top: 1px solid #eee;border-bottom: 1px solid #eee;margin-bottom: 30px;}
+.jump-content{padding: 15px 0;}
+.jump-page-box{width: 31px;border-radius: 3px;margin-left: 10px;margin-top: 5px;margin-right: 5px;text-align:center;}
+.jump-btn{width:30px;height:33px;padding: 6px 12px;line-height: 1.42857143;color: #428bca;text-decoration: none;background-color: #fff;border: 1px solid #ddd;border-radius: 3px;}
+.jump-btn:hover{border:1px solid #428bca;}
+/* 分页 */
+.tcdPageCode{padding: 15px 20px;text-align: right;color: #ccc;}
+.tcdPageCode a{display: inline-block;color: #428bca;display: inline-block;padding: 6px 12px;border: 1px solid #ddd;	margin: 0 2px;border-radius: 4px;vertical-align: middle;}
+.tcdPageCode a:hover{text-decoration: none;border: 1px solid #428bca;}
+.tcdPageCode span.current{display: inline-block;padding: 6px 12px;margin: 0 2px;color: #fff;background-color: #428bca;	border: 1px solid #428bca;border-radius: 4px;vertical-align: middle;}
+.tcdPageCode span.disabled{	display: inline-block;padding: 6px 12px;margin: 0 2px;	color: #bfbfbf;background: #f2f2f2;border: 1px solid #bfbfbf;border-radius: 4px;vertical-align: middle;}
+
+/* datepicker firefox&ie9 hack */
+.ui-datepicker {background: #1D2939;margin-top: 1px;z-index: 100000;-moz-border-radius: 2px;-webkit-border-radius: 2px;border-radius: 2px;width: 280px;}
+.ui-datepicker-prev {background: url(../images/calendar-arrow.png) no-repeat 8px -80px;}
+.ui-datepicker-next {background: url(../images/calendar-arrow.png) no-repeat 10px 5px;}
+.ui-datepicker td.ui-datepicker-today a {background: rgba(255,255,255,0.1);}
+.ui-datepicker-title {text-transform: uppercase;font-family: 'LatoBold';color: #1CAF9A;}
+.ui-datepicker th {text-transform: uppercase;font-family: 'LatoBold';font-weight: normal;font-size: 11px;color: #fff;}
+.ui-datepicker td a {color: #636E7B;-moz-border-radius: 2px;-webkit-border-radius: 2px;border-radius: 2px;padding: 3px 5px;-moz-transition: all 0.2s ease-out 0s;-webkit-transition: all 0.2s ease-out 0s;transition: all 0.2s ease-out 0s;}
+
+

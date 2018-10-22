@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.mapper.AuthorityMapper">
+
+<!--    <select id="selectById" resultType="String" parameterType="String">
+        select app_poi_code from app_code where id=#{id}
+    </select>-->
+    <!--登录时左侧菜单-->
+    <select id="selectByRoleId" resultType="map" >
+        SELECT  p._id id, p._parentId pId, p._authName text,  p._sort  sort, p._path url
+        FROM _permissions p INNER JOIN _roles_permissions rp  ON p._id =  rp._authId
+        WHERE (p._type = 2 OR p._type = 1 ) AND rp._roleId = #{roId}  and p._platType = 1 order by p._sort
+    </select>
+    <!--按钮级别的权限-->
+    <select id="selectButtonsByRoleId" resultType="String">
+        SELECT DISTINCT _method method
+        FROM _permissions p, _roles_permissions rp
+        WHERE  rp._authId = p._id AND rp._roleId = #{roId} and p._method <![CDATA[ <> ]]> ''
+    </select>
+    <!--权限树当前角色所拥有的权限-->
+    <select id="selectCheckedTreeByRoleId" resultType="map" >
+       SELECT p._id id, p._parentId pId, p._authName name, CASE WHEN rp._id is null then 'false' else 'true' end  checked
+	   FROM _permissions p LEFT JOIN _roles_permissions rp ON p._id = rp._authId  AND rp._roleId = #{roleId}
+    </select>
+    <!--添加、更新权限-->
+    <!--删除权限-->
+    <delete id="deleteRolePermissions"  parameterType="java.lang.Long">
+        DELETE FROM
+        _roles_permissions
+        WHERE
+        _roleId = #{roleId}
+    </delete>
+    <insert id="batchInsert" parameterType="map">
+        insert into _roles_permissions(_roleId, _authId) values
+        <foreach collection="permissionsIds" index="index" item="item" separator=",">
+            ( #{roleId}, #{item} )
+        </foreach>
+    </insert>
+
+</mapper>
