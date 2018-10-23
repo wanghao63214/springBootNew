@@ -2,7 +2,7 @@
 <html class="login-bg">
 <head>
     <#assign base=request.contextPath />
-    <title>管理后台系统</title>
+    <title>hx的系统</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link href="${base}js/lib/Bracket1.5/css/style.default.css" rel="stylesheet">
@@ -23,15 +23,15 @@
             <div class="col-xs-7">
                 <div class="signin-info">
                     <div class="logopanel">
-                        <h1><span>[</span> 管理后台 <span>]</span></h1>
+                        <h1><span>[</span> Hello hx <span>]</span></h1>
                     </div><!-- logopanel -->
                     <div class="mb20"></div>
-                    <h5><strong>欢迎登录管理后台!</strong></h5>
+                    <h5><strong>欢迎登录!</strong></h5>
                     <ul>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> 1</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> 2</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> 3</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> 4</li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> h</li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> x</li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> w</li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> h</li>
                     </ul>
                     <div class="mb20"></div>
                     <!-- <strong>Not a member? <a href="signup.html">Sign Up</a></strong> -->

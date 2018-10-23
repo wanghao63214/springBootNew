@@ -3,17 +3,27 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>弹窗</title>
+    <meta name="viewport"  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>work</title>
 </head>
-
 <body>
-<h2>33</h2>
-<input id="start">
-<input id="message">
+<div class="jumbotron" style="width:500px;height:560px">
+    <div class="container" id="textContainer">
+
+    </div>
+</div>
+<form class="form-inline" action="#" onkeydown="if(event.keyCode==13){return false;}" role="form">
+    <div class="form-group" style="margin:5px">
+        <input name="message" type="text" style="width:300px;" class="form-control" id="message"/>
+    </div>
+    <button type="button" class="btn btn-primary btn-md" onclick="sendMessage()" id="sendMessageId" style="margin-left: 10px;">发送
+    </button>
+   <#-- <input id="start">-->
+</form>
 <iframe id="my_iframe" style="display:none;"></iframe>
 <script type="application/javascript">
+    var number = 1;
+    var isMyself = false;
     var socket;
     if (typeof(WebSocket) == "undefined") {
         console.log("您的浏览器不支持WebSocket");
@@ -22,18 +32,19 @@
 //实现化WebSocket对象，指定要连接的服务器地址与端口 建立连接
 //等同于socket = new WebSocket("ws://localhost:8083/checkcentersys/websocket/20");
 //socket = new WebSocket("http://localhost:8080/websocket/".replace("http","ws"));
-        socket = new WebSocket("ws://localhost:8066/websocket/33");
-//打开事件
+        socket = new WebSocket("ws://140.143.98.124:8066/websocket/hx");//hx 为sid
+        //打开事件
         socket.onopen = function () {
             console.log("Socket 已打开");
             $("#start").val("Socket 已打开")
-//socket.send("这是来自客户端的消息" + location.href + new Date());
+        //socket.send("这是来自客户端的消息" + location.href + new Date());
         };
-//获得消息事件
+
+        //获得消息事件
         socket.onmessage = function (msg) {
             console.log(msg.data);
-            $("#message").val(msg.data);
-            _window._alert("信息", msg.data);
+            messageEdit(msg.data);
+            //_window._alert("信息", msg.data);
 //发现消息进入 开始处理前端触发逻辑
         };
 //关闭事件
@@ -51,6 +62,34 @@
 // $(window).unload(function(){
 // socket.close();
 //});
+    }
+    //客户端发送信息
+    function sendMessage(){
+        isMyself = true;
+        var message = $('#message').val();
+        if (message == '' || message == 'NULL' || message == null) {
+            return;
+        }
+        socket.send(message);
+        $('#message').val("");
+    }
+    function messageEdit(message){
+        var name = isMyself == true ? 'hx' : 'wh';
+        if (!isMyself) {
+            if (message.indexOf('提醒') > -1) {
+                _window._alert("提醒", message);
+                return;
+            }
+        }
+        var template = name + '   ' + _dateFormat(new Date().getTime(), "yyyy-MM-dd HH:mm:ss") + '<br/>';
+        var newText = message + '<br/>';
+        if (number >= 10) {
+            $("#textContainer").html("");
+            number = 0;
+        }
+        $("#textContainer").append(template + newText);
+        number ++;
+        isMyself = false;
     }
 </script>
 
