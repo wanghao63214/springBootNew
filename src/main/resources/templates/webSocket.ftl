@@ -34,7 +34,7 @@
 //等同于socket = new WebSocket("ws://localhost:8083/checkcentersys/websocket/20");
 //socket = new WebSocket("http://localhost:8080/websocket/".replace("http","ws"));
        // socket = new WebSocket("ws://localhost:8066/websocket/" + userName);//hx 为sid
-        socket = new WebSocket("ws://140.143.98.124:8066/websocket/" + userName);//hx 为sid
+        socket = new WebSocket("ws://94.191.100.44:8080/websocket/" + userName);//hx 为sid
         //打开事件
         socket.onopen = function () {
             console.log("Socket 已打开");
