@@ -13,6 +13,6 @@ public class WorkController extends BaseController {
     public String index(Model model) {
         Account user = ShiroUtils.getLoginUser();
         model.addAttribute("userName", user.getUsername());
-        return "webSocket";
+        return "work/webSocket";
     }
 }

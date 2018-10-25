@@ -12,7 +12,7 @@ spring:
     request-context-attribute: request
     cache: false
   rabbitmq:
-    host: 127.0.0.1
+    host: 94.191.100.44
     port: 5672
     username: admin
     password: 123456
