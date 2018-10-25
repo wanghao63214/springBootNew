@@ -12,7 +12,7 @@
 
     </div>
 </div>
-<form class="form-inline" action="#" onkeydown="if(event.keyCode==13){return false;}" role="form">
+<form class="form-inline" action="#"  role="form">
     <div class="form-group" style="margin:5px">
         <input name="message" type="text" style="width:300px;" class="form-control" id="message" />
     </div>
