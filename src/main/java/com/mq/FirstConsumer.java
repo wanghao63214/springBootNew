@@ -1,5 +1,5 @@
 package com.mq;
-/*import org.springframework.amqp.rabbit.annotation.RabbitListener;*/
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FirstConsumer {
 
-/*    @RabbitListener(queues = {"first-queue"}, containerFactory = "rabbitListenerContainerFactory")
+    @RabbitListener(queues = {"first-queue"}, containerFactory = "rabbitListenerContainerFactory")
     public void handleMessage_first(String message) throws Exception {
         System.out.println("first-queue");
         // 处理消息
@@ -23,5 +23,5 @@ public class FirstConsumer {
         System.out.println("second-queue");
         // 处理消息
         System.out.println("FirstConsumer {} handleMessage :"+message);
-    }*/
+    }
 }

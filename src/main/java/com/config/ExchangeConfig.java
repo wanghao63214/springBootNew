@@ -1,6 +1,6 @@
 package com.config;
 
-/*import org.springframework.amqp.core.DirectExchange;*/
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,9 +22,9 @@ public class ExchangeConfig {
      *   key: queue在该direct-exchange中的key值，当消息发送给direct-exchange中指定key为设置值时，
      *   消息将会转发给queue参数指定的消息队列
      */
-  /*  @Bean
+    @Bean
     public DirectExchange directExchange(){
         DirectExchange directExchange = new DirectExchange(RabbitMqConfig.EXCHANGE,true,false);
         return directExchange;
-    }*/
+    }
 }

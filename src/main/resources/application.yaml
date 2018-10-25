@@ -11,12 +11,12 @@ spring:
   freemarker:
     request-context-attribute: request
     cache: false
-  #rabbitmq:
-   # host: 127.0.0.1
-   # port: 5672
-   # username: rabbit
-   # password: 123
-   # publisher-confirms: true    #  消息发送到交换机确认机制,是否确认回调
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin
+    password: 123456
+    publisher-confirms: true    #  消息发送到交换机确认机制,是否确认回调
 mybatis:
   config-locations:
     classpath: mybatis/mybatis-config.xml
