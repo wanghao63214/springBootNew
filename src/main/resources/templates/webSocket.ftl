@@ -16,7 +16,8 @@
     <div class="form-group" style="margin:5px">
         <input name="message" type="text" style="width:300px;" class="form-control" id="message" />
     </div>
-    <button type="button" class="btn btn-primary btn-md" onclick="sendMessage()" id="sendMessageId" style="margin-left: 10px;">发送
+    <button type="button" class="btn btn-primary btn-md"
+            onclick="sendMessage()" id="sendMessageId" style="margin-left: 10px;">发送
     </button>
    <#-- <input id="start">-->
 </form>
@@ -93,6 +94,13 @@
         number ++;
         isMyself = false;
     }
+    $("body").keydown(function(e) {
+        e=e||event;
+        if(e.keyCode==13){
+            $('#sendMessageId').click();
+        }
+        return;
+    });
 </script>
 
 </body>
