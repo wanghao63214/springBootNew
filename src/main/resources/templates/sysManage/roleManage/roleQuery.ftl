@@ -24,7 +24,7 @@
     var roleId = '';
     var pageNum = 1;
     var pageSize = 10;
-    var roleEditorPageUrl = 'view/sysManage/roleManage/roleEditor.jsp';
+    var roleEmpowerPageUrl = 'roles/roleEmpowerPage';
     var roleAddPageUrl = 'view/sysManage/roleManage/roleAdd.jsp';
     var queryUrl = 'roles/roleQuery.do';
     var queryTable = $('#queryTable'), selections = [];
@@ -39,7 +39,7 @@
         //授权
         'click .accredit': function (e, value, row, index) {
             roleId = row._id;
-            _window._showPopup('赋权', roleEditorPageUrl, function () {
+            _window._showPopup('赋权', roleEmpowerPageUrl, function () {
             }, 'md');
         }
     };

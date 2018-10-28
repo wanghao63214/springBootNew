@@ -63,7 +63,6 @@ public class UserController  extends BaseController{
 		}
 		return ms;
 	}
-
 	@RequestMapping(value = "updatePassword" + REQUEST_FORMAT, produces = JSON + CHARSET)
 	@ResponseBody
 	public Message updatePassword(String password, String oldPassword) {

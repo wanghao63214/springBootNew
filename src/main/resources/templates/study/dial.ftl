@@ -68,7 +68,7 @@
         };
         //动态添加大转盘的奖品与奖品区域背景颜色
         turnplate.restaraunts = $('#callbacks').val();
-        colorsArr = ["#FFF4D6", "#FFFFFF", '#fff0c8'];
+        colorsArr = ["#FFFFCC", "#F0F8FF", '#FFFF99'];
         returnColor();
 
         function returnColor() {

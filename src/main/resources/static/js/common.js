@@ -77,7 +77,6 @@ function strToDate(dateStr) {
 	var date = new Date(dateStr.replace(/-/g,"/"));
 	return date;
 }
-
 /**
  * ajax请求封装
  * @param url 请求地址

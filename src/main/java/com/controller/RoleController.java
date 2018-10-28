@@ -36,6 +36,10 @@ public class RoleController extends BaseController {
 	public String userQueryPage() {
 		return "sysManage/roleManage/roleQuery";
 	}
+	@RequestMapping("roleEmpowerPage")
+	public String roleEmpowerPage() {
+		return "sysManage/roleManage/roleEmpower";
+	}
 
 	@RequestMapping(value = "roleQuery" + REQUEST_FORMAT, produces = JSON + CHARSET)
 	@ResponseBody
