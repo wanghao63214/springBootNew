@@ -2,10 +2,9 @@ package com.service;
 
 
 import com.common.utils.StringUtils;
-import com.dao.beans.Roles;
-import com.dao.beans.RolesExample;
-import com.dao.beans.StudyPlan;
-import com.dao.beans.StudyPlanExample;
+import com.dao.beans.*;
+import com.dao.mapper.StudyPlanDetailMapper;
+import com.dao.mapper.StudyPlanDetailMapper_Manual;
 import com.dao.mapper.StudyPlanMapper;
 import com.dao.mapper.StudyPlanMapper_Manual;
 import com.github.pagehelper.PageHelper;
@@ -30,6 +29,12 @@ public class StudyService {
     @Autowired
     private StudyPlanMapper_Manual StudyPlanMapper_Manual;
 
+    @Autowired
+    private StudyPlanDetailMapper studyPlanDetailMapper;
+
+    @Autowired
+    private StudyPlanDetailMapper_Manual studyPlanDetailMapper_Manual;
+
     /**
      * wh
      *
@@ -42,6 +47,24 @@ public class StudyService {
             map.put("total", studyPlanMapper.countByExample(studyPlanExample));
             PageHelper.startPage((offset / limit) + 1, limit);//startPage, PageSize
             List<Map<String, Object>> rows = StudyPlanMapper_Manual.selectListMap(studyPlanExample);
+            map.put("rows", rows);
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("total", 0);
+            map.put("rows", new ArrayList<>());
+        }
+        return map;
+    }
+    /**
+     * wh
+     */
+    public Map<String, Object> subStudyPlanQuery(StudyPlanDetail studyPlanDetail, int limit, int offset) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            StudyPlanDetailExample studyPlanDetailExample = new StudyPlanDetailExample();
+            map.put("total", studyPlanDetailMapper.countByExample(studyPlanDetailExample));
+            PageHelper.startPage((offset / limit) + 1, limit);//startPage, PageSize
+            List<Map<String, Object>> rows = studyPlanDetailMapper_Manual.selectListMap(studyPlanDetailExample);
             map.put("rows", rows);
         } catch (Exception e) {
             e.printStackTrace();

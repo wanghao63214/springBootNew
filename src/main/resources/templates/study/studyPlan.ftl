@@ -22,6 +22,7 @@
 </div>
 <script type="text/javascript">
     var queryUrl = 'study/studyPlanQuery.do';
+    var subQueryUrl = 'study/subStudyPlanQuery.do';
     var addUrl = 'study/studyPlanAdd';
     //事件监听
     window.agEvents = {
@@ -162,97 +163,30 @@
         _pageNum : 1,
         _pageSize : 10,
         _table : null,
-        _queryURL : queryUrl,
+        _queryURL : subQueryUrl,
         _query : function(id) {
             $(subTable._table)
                     .bootstrapTable(
                             {
                                 columns : [
                                     {
-                                        field : "agId", title : "序号", visible : true,
+                                        field : "id", title : "序号", visible : false,
                                         formatter: function(value, row, index) {
                                             return ((subTable._pageNum - 1) * (subTable._pageSize) + index + 1);
                                         }
                                     },
                                     {
-                                        field : "id", title : "id", visible : false, align : "center"
+                                        field : "_id", title : "_id", visible : false, align : "center"
                                     },
                                     {
-                                        field : "userName", title : "登录用户名", visible : true, align : "center"
+                                        field : "_study_plan_id", title : "_study_plan_id", visible : false, align : "center"
                                     },
                                     {
-                                        field : "realName", title : "真实姓名", visible : true, align : "center"
+                                        field : "_point", title : "要点", visible : true, align : "center"
                                     },
                                     {
-                                        field : "userMobile", title : "手机号", visible : true, align : "center"
-                                    },
-                                    {
-                                        field : "userEmail", title : "邮箱", visible : true, align : "center"
-                                    },
-                                    {
-                                        field : "agentType", title : "账户类型", visible : true, align : "center",
-                                        formatter : function (value){
-                                            if(value==1){
-                                                value = '主账号';
-                                            }else{
-                                                value = '普通账号';
-                                            }
-                                            return value;
-                                        }
-                                    },
-                                    {
-                                        field : "remark", title : "备注", visible : true, align : "center",
-                                        formatter : function(value){
-                                            return Tool.subStr(value, 10);
-                                        }
-                                    },
-                                    {
-                                        field : "userStatus", title : "状态", visible : true, align : "center",
-                                        formatter : function(value) {
-                                            if (value == 1) {
-                                                value = '正常';
-                                            } else {
-                                                value = '<span style="color:red;">停用</span>';
-                                            }
-                                            return value;
-                                        }
-                                    },
-                                    {
-                                        field : "",
-                                        title : "操作",
-                                        sortable : false,
-                                        visible : true,
-                                        align : "center",
-                                        events : agEvents,
-                                        formatter : function(value, row,
-                                                             index) {
-                                            var temp = row.userStatus==1?"停用":"启用";
-                                            return '<shiro:hasPermission name="user:add">'
-                                                    + '<a class=" agUserUpdateEventsClass" href="javascript:void(0)" style="margin-bottom: -5px;">修改</a>'
-                                                    + ' </shiro:hasPermission> '
-                                                    + ' <shiro:lacksPermission name="user:add"> '
-                                                    + ' 未授权 '
-                                                    + ' </shiro:lacksPermission> '
-                                                    + '<shiro:hasPermission name="user:add">'
-                                                    + '<a class=" agUserDelClass" href="javascript:void(0)" style="margin-bottom: -5px;">删除</a>'
-                                                    + ' </shiro:hasPermission> '
-                                                    + ' <shiro:lacksPermission name="user:add"> '
-                                                    + ' 未授权  '
-                                                    + ' </shiro:lacksPermission> '
-                                                    + '<shiro:hasPermission name="user:add">'
-                                                    + '<a class=" agUserDisableClass" href="javascript:void(0)" style="margin-bottom: -5px;">'+temp+'</a>'
-                                                    + ' </shiro:hasPermission> '
-                                                    + ' <shiro:lacksPermission name="user:add"> '
-                                                    + ' 未授权  '
-                                                    + ' </shiro:lacksPermission> '
-                                                    + '<shiro:hasPermission name="user:add">'
-                                                    + '<a class=" agUserPwdInitClass" href="javascript:void(0)" style="margin-bottom: -5px;">重置密码</a>'
-                                                    + ' </shiro:hasPermission> '
-                                                    + ' <shiro:lacksPermission name="user:add"> '
-                                                    + ' 未授权  '
-                                                    + ' </shiro:lacksPermission> ';
-                                        }
-                                    } ],
+                                        field : "_question", title : "问题", visible : true, align : "center"
+                                    }  ],
                                 queryParams : function(params) {
                                     params.agId = id;
                                     params._time = new Date().getTime();
