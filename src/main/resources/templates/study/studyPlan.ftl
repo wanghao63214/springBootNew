@@ -1,6 +1,7 @@
 <div class="pageheader">
     <h2 style="color: white;"> JAVA学习计划 </h2>
 </div>
+
 <div class="contentpanel containermain">
     <div class="tab-content">
         <div>
@@ -19,6 +20,15 @@
         </div>
     </div>
     <table id="queryTable"></table>
+    <div>
+        <div class="jumbotron">
+            <h3>研发二部部员JAVA基础培训规则</h3>
+            <span style="display:block">  1，每次培训结束，主持人随机抽选并公布下次培训主持人。</span>
+            <span style="display:block">  2，主持人根据计划培训，并准备问题，在每次培训完成之后对每个人提问。</span>
+            <span style="display:block">  3，参训人员根据计划，准备问题，在每次培训期间对主持人提问，每人最少一个问题，不得同其他参训人员重复。</span>
+            <span style="display:block">  4，下次培训时间由抽选出的下次培训主持人公布。</span>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     var queryUrl = 'study/studyPlanQuery.do';
@@ -85,6 +95,9 @@
                                 }
                             },
                             {
+                                field: "_id", title: "_id", visible: false, align: "center"
+                            },
+                            {
                                 field: "_operate_date", title: "日期", visible: true, align: "center"
                             },
                             {
@@ -136,7 +149,7 @@
         },
         _initSubTable : function(index, row, $detail) {
             subTable._table = $detail.html('<table></table>').find('table');
-            subTable._query(row.id);
+            subTable._query(row._id);
         },
         _export : function() {
             $('#agQueryForm').attr("action", 'ag/query_export.do?loginName=' + _userName).submit();
@@ -182,14 +195,15 @@
                                         field : "_study_plan_id", title : "_study_plan_id", visible : false, align : "center"
                                     },
                                     {
-                                        field : "_point", title : "要点", visible : true, align : "center"
+                                        field : "_point", title : "知识点", visible : true, align : "center"
                                     },
                                     {
                                         field : "_question", title : "问题", visible : true, align : "center"
-                                    }  ],
+                                    },{
+                                        field : "_use_case", title : "使用场景", visible : true, align : "center"
+                                    }],
                                 queryParams : function(params) {
-                                    params.agId = id;
-                                    params._time = new Date().getTime();
+                                    params.studyPlanId = id;
                                     return params;
                                 },
                                 rowStyle : function(value, row, index) {

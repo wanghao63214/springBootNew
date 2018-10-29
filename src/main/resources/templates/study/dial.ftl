@@ -8,18 +8,21 @@
         <!--选择框 -->
         <div class="editContent" style="width:100%;font-size:18px;margin-top:150px;margin-left:60px">
             <select id='callbacks' multiple='multiple' style="height:300px;">
-                <option value='A' selected>A</option>
-                <option value='B' selected>B</option>
-                <option value='C' selected>C</option>
-                <option value='D' selected>D</option>
-                <option value='E' selected>E</option>
-                <option value='F' selected>F</option>
-                <option value='G' selected>G</option>
-                <option value='H' selected>H</option>
-                <option value='I' selected>I</option>
-                <option value='J' selected>J</option>
-                <option value='K' selected>K</option>
-                <option value='L' selected>L</option>
+                <option value='姜松' selected>姜松</option>
+                <option value='李杰' selected>李杰</option>
+                <option value='尹军辉' selected>尹军辉</option>
+                <option value='郑锟鹏' selected>郑锟鹏</option>
+                <option value='宋霄霄' selected>宋霄霄</option>
+                <option value='范湘誉' selected>范湘誉</option>
+                <option value='姜贵祥' selected>姜贵祥</option>
+                <option value='夏伟佳' selected>夏伟佳</option>
+                <option value='谭晓杰' selected>谭晓杰</option>
+                <option value='张泽亮' selected>张泽亮</option>
+                <option value='丰顺' selected>丰顺</option>
+                <option value='王浩' selected>王浩</option>
+                <option value='刘帅' selected>刘帅</option>
+                <option value='姜伯远' selected>姜伯远</option>
+                <option value='朴哲峰' selected>朴哲峰</option>
             </select>
         </div>
     </div>
@@ -68,7 +71,7 @@
         };
         //动态添加大转盘的奖品与奖品区域背景颜色
         turnplate.restaraunts = $('#callbacks').val();
-        colorsArr = ["#FFFFCC", "#F0F8FF", '#FFFF99'];
+        colorsArr = ["#FFFCCC", "#F0F8FF", '#FFFF99'];
         returnColor();
 
         function returnColor() {

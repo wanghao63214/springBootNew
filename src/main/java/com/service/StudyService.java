@@ -62,6 +62,10 @@ public class StudyService {
         Map<String, Object> map = new HashMap<>();
         try {
             StudyPlanDetailExample studyPlanDetailExample = new StudyPlanDetailExample();
+            StudyPlanDetailExample.Criteria criteria = studyPlanDetailExample.createCriteria();
+            if (!(null == studyPlanDetail.getStudyPlanId() ||  studyPlanDetail.getStudyPlanId().equals(""))) {
+                criteria.andStudyPlanIdEqualTo(studyPlanDetail.getStudyPlanId());
+            }
             map.put("total", studyPlanDetailMapper.countByExample(studyPlanDetailExample));
             PageHelper.startPage((offset / limit) + 1, limit);//startPage, PageSize
             List<Map<String, Object>> rows = studyPlanDetailMapper_Manual.selectListMap(studyPlanDetailExample);

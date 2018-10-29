@@ -23,16 +23,10 @@
             <div class="col-xs-7">
                 <div class="signin-info">
                     <div class="logopanel">
-                        <h1><span>[</span> Hello hx <span>]</span></h1>
+                        <h1><span>[</span> Hello, Everyone<span>]</span></h1>
                     </div><!-- logopanel -->
                     <div class="mb20"></div>
-                    <h5><strong>欢迎登录!</strong></h5>
-                    <ul>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> h</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> x</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> w</li>
-                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> h</li>
-                    </ul>
+                    <h1><strong>欢迎登录!</strong></h1>
                     <div class="mb20"></div>
                     <!-- <strong>Not a member? <a href="signup.html">Sign Up</a></strong> -->
                 </div><!-- signin0-info -->
