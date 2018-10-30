@@ -549,5 +549,13 @@ public class DateUtils {
 		Date date = dateFormat.parse(dateString);
 		return date;
 	}
-	
+	/**
+	 * @Author wanghao
+	 * @date 2018-08-30
+	 * @Description 获得当前时间
+	 **/
+	public static String getDateTime() throws Exception{
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return dateFormat.format(new Date());
+	}
 }

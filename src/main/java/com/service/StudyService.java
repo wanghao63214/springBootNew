@@ -8,6 +8,7 @@ import com.dao.mapper.StudyPlanDetailMapper_Manual;
 import com.dao.mapper.StudyPlanMapper;
 import com.dao.mapper.StudyPlanMapper_Manual;
 import com.github.pagehelper.PageHelper;
+import com.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class StudyService {
 
     @Autowired
     private StudyPlanDetailMapper_Manual studyPlanDetailMapper_Manual;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     /**
      * wh
@@ -85,60 +89,18 @@ public class StudyService {
             e.printStackTrace();
         }
     }
-    /*
-    studyPlan
-    *//**
-     * WH
-     * 获得权限树中已有权限
-     * @return
-     *//*
-    public List<Map<String, Object>> selectCheckedTreeByRoleId(Integer roleId) {
-        List<Map<String, Object>> list = null;
-        try {
-            list = authorityMapper.selectCheckedTreeByRoleId(roleId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            list = new ArrayList<Map<String, Object>>();
+
+    public void dialResultRedisSave(String choosenName) {
+        String temp = redisUtils.getString("choosenName");
+        if (null == temp) {
+            redisUtils.saveString("choosenName", temp);
+        } else {
+            redisUtils.saveString("choosenName", temp + "<br/>" + choosenName);
         }
-        return list;
     }
 
-    *//**
-     * 给指定角色id 对应赋值权限
-     * @param roleId 角色id
-     *//*
-    public void updateRolePermissions(long roleId, String permissionsIds){
-        try {
-            if (StringUtils.isEmptyValue(permissionsIds)) {
-                return;
-            } else {
-                //删除这个角色以前对应的权限
-                authorityMapper.deleteRolePermissions(roleId);
-                //给这个角色赋值新的权限
-                String[] permissionsIds_array = permissionsIds.split(",");
-                Map<String, Object> map = new HashMap<>();
-                map.put("roleId", roleId);
-                map.put("permissionsIds", permissionsIds_array);
-                authorityMapper.batchInsert(map);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public String dialResultRedisQuery(String key){
+        return redisUtils.getString(key);
     }
 
-    *//**
-     * WH
-     * 获得角色下拉框动态数据
-     * @return
-     *//*
-    public List<Map<String, Object>> getRolesSelect() {
-        List<Map<String, Object>> list = null;
-        try {
-            list = rolesMapper_Manual.selectListMap_select();
-        } catch (Exception e) {
-            list = new ArrayList<Map<String, Object>>();
-        }
-        return list;
-    }*/
 }

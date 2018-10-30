@@ -35,6 +35,13 @@
             </div>
         </div>
     </div>
+    <div style="height:600px;width:230px;margin-top:30px;margin-left:40px;float:left;background:white;padding:4px;">
+        <div style="padding-left:60px;padding-top:20px;">
+            <h5>被选中的讲师</h5>
+        </div>
+        <div class="container" id="textContainer" style="">
+        </div>
+    </div>
 </div>
 <!-- dial -->
 <script src="${base}js/dial/flexible_css.debug.js"></script>
@@ -71,7 +78,7 @@
         };
         //动态添加大转盘的奖品与奖品区域背景颜色
         turnplate.restaraunts = $('#callbacks').val();
-        colorsArr = ["#FFFCCC", "#F0F8FF", '#FFFF99'];
+        colorsArr = ["#FFF8DC", "#F0F8FF", '#F5DEB3'];
         returnColor();
 
         function returnColor() {
@@ -164,14 +171,35 @@
                 duration: 8000,
                 callback: function () {
                     console.log(txt);
-                    /* setTimeout(function(){
-                _window._alert("被选中的", item)
-            },7500);*/
+                    setTimeout(function () {
+                            dialResultRedisSave(txt);
+                    }, 2);
                     turnplate.bRotate = !turnplate.bRotate;
                 }
             });
         };
-
+        function dialResultRedisSave(txt){
+            $.ajax({
+                type : "POST",
+                url : 'study/dialResultRedisSave',
+                data: {choosenName: txt},
+                success : function(msg) {
+                    $("#textContainer").html('');
+                    $("#textContainer").append(msg.msg);
+                }
+            });
+        }
+        function dialResultRedisQuery(){
+            $.ajax({
+                type : "POST",
+                url : 'study/dialResultRedisQuery',
+                data: {},
+                success : function(msg) {
+                    $("#textContainer").html('');
+                    $("#textContainer").append(msg.msg);
+                }
+            });
+        }
         function drawRouletteWheel() {
             turnplate.restaraunts = turnplate.restaraunts == null ? ["没有值了！"] : turnplate.restaraunts;
             var canvas = document.getElementById("wheelcanvas");
@@ -223,6 +251,7 @@
         }
         returnColor();
         drawRouletteWheel();
+        dialResultRedisQuery();
     });
 </script>
 </body>
