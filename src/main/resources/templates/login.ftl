@@ -2,7 +2,7 @@
 <html class="login-bg">
 <head>
     <#assign base=request.contextPath />
-    <title>hx的系统</title>
+    <title>系统</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link href="${base}js/lib/Bracket1.5/css/style.default.css" rel="stylesheet">
