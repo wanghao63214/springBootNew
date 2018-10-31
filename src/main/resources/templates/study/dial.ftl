@@ -3,10 +3,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <body>
-<div class="TurntablePage" style="height:800px;">
-     <div style="height:600px;width:500px;float:left;">
+<div class="TurntablePage" style="height:800px;width:100%">
+     <div style="height:600px;width:33%;float:left;">
         <!--选择框 -->
-        <div class="editContent" style="width:100%;font-size:18px;margin-top:150px;margin-left:60px">
+        <div class="editContent" style="width:100%;font-size:18px;margin-top:150px;margin-left:40px">
             <select id='callbacks' multiple='multiple' style="height:300px;">
                 <option value='姜松' selected>姜松</option>
                 <option value='李杰' selected>李杰</option>
@@ -26,17 +26,17 @@
             </select>
         </div>
     </div>
-    <div style="height:600px;width:500px;float:left;">
+    <div style="height:600px;width:40%;float:left;">
         <!--大转盘-->
         <div class="TurntableBox" style="height:500px;width:100%">
-            <div class="turnplate" style="height:500px;width:500px;">
+            <div class="turnplate" style="height:500px;width:100%;">
                 <canvas class="item" id="wheelcanvas" width="422px" height="422px"></canvas>
                 <img class="pointer" src="${base}images/img/start.png">
             </div>
         </div>
     </div>
-    <div style="height:600px;width:230px;margin-top:30px;margin-left:40px;float:left;background:white;padding:4px;">
-        <div style="padding-left:60px;padding-top:20px;">
+    <div style="height:600px;width:20%;margin-top:30px;margin-left:10px;float:left;background:white;padding:4px;">
+        <div style="padding-left:65px;padding-top:20px;">
             <h5>被选中的讲师</h5>
         </div>
         <div class="container" id="textContainer" style="">
