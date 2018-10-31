@@ -92,8 +92,9 @@ public class StudyService {
 
     public void dialResultRedisSave(String choosenName) {
         String temp = redisUtils.getString("choosenName");
-        if (null == temp) {
-            redisUtils.saveString("choosenName", temp);
+
+        if (null == temp || temp.length() > 300) {
+            redisUtils.saveString("choosenName", choosenName);
         } else {
             redisUtils.saveString("choosenName", temp + "<br/>" + choosenName);
         }
