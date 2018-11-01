@@ -116,7 +116,8 @@
                                     if (value != null && value != '') {
                                         var downloadBaseUrl = "study/downloadFile?" + "id=" + row._id + "&attachmentUrl=" + value;
                                         return [
-                                            "<a class='glyphicon glyphicon-paperclip' target='_self' href='" + downloadBaseUrl + "' style='cursor: pointer;'></a>"
+                                            //"<a class='glyphicon glyphicon-paperclip' target='_self' href='" + downloadBaseUrl + "' style='cursor: pointer;'></a>"
+                                            "<a class='glyphicon glyphicon-paperclip' onclick='testDownload()' href='javascript:void(0)' style='cursor: pointer;'></a>"
                                         ].join('');
                                     } else {
                                         return "-";
@@ -323,6 +324,9 @@
                 }
             });
         }
+    }
+    function testDownload(testDownload){
+        window.location.href = 'study/downloadFile?id=1&attachmentUrl=firstday.docx'
     }
     // 初始化数据
     $(function () {

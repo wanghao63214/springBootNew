@@ -113,7 +113,7 @@ public class StudyController extends BaseController {
         // 设置文件名，根据业务需要替换成要下载的文件名
         if (fileName != null) {
             // 设置文件路径
-            String realPath = "/root/download/" + studyplan.getId() + "/";
+               String realPath = "/root/download/" + studyplan.getId() + "/";
             // String realPath = "D:\\testFolder\\" + studyplan.getId() + "\\";
             File file = new File(realPath, fileName);
             System.out.println(realPath + fileName);
