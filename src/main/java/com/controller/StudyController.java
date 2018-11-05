@@ -1,5 +1,7 @@
 package com.controller;
 
+import ch.qos.logback.core.util.FileUtil;
+import com.utils.FileUtils;
 import com.common.exception.manage.Message;
 import com.common.utils.DateUtils;
 import com.dao.beans.Account;
@@ -11,8 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -109,12 +115,15 @@ public class StudyController extends BaseController {
 
     @RequestMapping(value = "downloadFile", produces = JSON + CHARSET)
     public Map<String, String> downloadFile(StudyPlan studyplan) {
-        String fileName = studyplan.getAttachmentUrl();//
         // 设置文件名，根据业务需要替换成要下载的文件名
+        String fileName = studyplan.getAttachmentUrl();//
+        String realPath = realPath = "/root/download/" + studyplan.getId() + "/";//默认linux系统
         if (fileName != null) {
+            String operateSystem = System.getProperty("os.name");
             // 设置文件路径
-               String realPath = "/root/download/" + studyplan.getId() + "/";
-            // String realPath = "D:\\testFolder\\" + studyplan.getId() + "\\";
+            if (operateSystem.toLowerCase().startsWith("win")) {
+                realPath = "D:\\testFolder\\" + studyplan.getId() + "\\";
+            }
             File file = new File(realPath, fileName);
             System.out.println(realPath + fileName);
             if (file.exists()) {
@@ -164,5 +173,36 @@ public class StudyController extends BaseController {
         }
         return null;
 
+    }
+
+    //处理文件上传
+    @RequestMapping(value = "/testuploadimg", method = RequestMethod.POST)
+    public @ResponseBody
+    String uploadImg(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        String contentType = file.getContentType();
+        String fileName = file.getOriginalFilename(); /*System.out.println("fileName-->" + fileName);
+        System.out.println("getContentType-->"+contentType);*/
+        String filePath = request.getSession().getServletContext().getRealPath("imgupload/");
+        try {
+            FileUtils.uploadFile(file.getBytes(), filePath, fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        boolean isTure = Math.random() > 0.5 ? true : false;
+        for (int i = 0; i < 1000; i++) {
+            circle:for (int j = 0; j < 100; j++) {
+                for (int k = 0; k < 10; k++) {
+                    if (isTure) {
+                       // continue;
+                        // break;
+                        break circle;
+                    }
+                    System.out.println(123);
+                }
+                System.out.println(456);
+            }
+            System.out.println(789);
+        }
+        return "uploadimg success";
     }
 }
