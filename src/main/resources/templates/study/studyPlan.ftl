@@ -11,6 +11,10 @@
                         <a id="roleAddItem" class="btn btn-primary btn-sm" href="javascript:void(0);"
                            onclick="javascript:Container._add()" " style="width: 95px;">新增计划</a>
                     </div>
+                    <div class="form-group" style="float:left;padding-top:10px;margin-right:10px;">
+                        <a id="roleAddItem" class="btn btn-primary btn-sm" href="javascript:void(0);"
+                           onclick="javascript:Container._add()" " style="width: 95px;">execel批量下载</a>
+                    </div>
                 </shiro:hasPermission>
                 <div style="float:right;margin-right: 20px;margin-top: 10px;margin-bottom: 10px;">
                     <div class="w-105" style="float: right;margin-left: 0px;">
@@ -37,49 +41,15 @@
     var queryUrl = 'study/studyPlanQuery.do';
     var subQueryUrl = 'study/subStudyPlanQuery.do';
     var addUrl = 'study/studyPlanAdd';
+    var uploadUrl = 'study/uploadPage';
     //事件监听
-    window.agEvents = {
-
-        'click .agUserAddEventsClass': function (e, value, row, index) {
-            _window._showPopup("添加用户", agUserAddUrl + '?agId=' + row.id, function () {
-                //Container._search();
-                subTable._search();
-            });
-        },
-        'click .downloadFile': function (e, value, row, index) {
-            Container._downloadFile(row);
-        },
-        'click .agUpdateEventsClass': function (e, value, row, index) {
-            passoptions = row;
-            _window._showPopup("修改代理商", agAddUrl, function () {
+    window.operateEvents = {
+        'click .updateFile': function (e, value, row, index) {
+            _window._showPopup('上传', uploadUrl + "?id=" + row._id, function () {
                 Container._search();
-            }, 'lg');
-        },
-        'click .agUserUpdateEventsClass': function (e, value, row, index) {
-            passoptions = row;
-            _window._showPopup("修改代理商用户", agUserUpdateUrl, function () {
-                subTable._search();
-            });
-        },
-        'click .agUserDisableClass': function (e, value, row, index) {
-            var temp = row.userStatus == 1 ? "是否停封该用户？" : "是否启用该用户？";
-            _window._confirm(temp, function () {
-                subTable._changeUserstatus(row);
-                subTable._search();
-            });
-        },
-        'click .agUserPwdInitClass': function (e, value, row, index) {
-            _window._confirm("是否确认重置密码", function () {
-                subTable._userPwdInit(row);
-            });
-        },
-        'click .agUserDelClass': function (e, value, row, index) {
-            _window._confirm("是否确认删除用户", function () {
-                subTable._userDel(row);
-                subTable._search();
-            });
+            }, 'md');
         }
-    }
+    };
     //开始
     var Container = {
         _pageNum: 1,
@@ -116,12 +86,16 @@
                                     if (value != null && value != '') {
                                         var downloadBaseUrl = "study/downloadFile?" + "id=" + row._id + "&attachmentUrl=" + value;
                                         return [
-                                            "<a class='glyphicon glyphicon-paperclip' download='" + value + "'  href='study/downloadFile?id=1&attachmentUrl=firstday.docx' style='cursor: pointer;'></a>"
+                                            "<a class='glyphicon glyphicon-paperclip' download='" + value + "' " +
+                                            " href='study/downloadFile?id=" + row._id +
+                                            "&attachmentUrl=" + value + "' style='cursor: pointer;'></a>"
                                         ].join('');
                                     } else {
                                         return "-";
                                     }
                                 }
+                            }, {
+                                field: 'operate', title: '更新附件', align: 'center', events: operateEvents, formatter: operateFormatter
                             }
                         ],
                         queryParams: function (params) {
@@ -206,6 +180,7 @@
             });
         },
     };
+
     var subTable = {
         _pageNum: 1,
         _pageSize: 10,
@@ -330,4 +305,10 @@
         Container._query();
 
     });
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="updateFile" href="javascript:void(0)" title="上传">上传',
+            '</a>'
+        ].join('');
+    }
 </script>

@@ -40,6 +40,7 @@
         'click .accredit': function (e, value, row, index) {
             roleId = row._id;
             _window._showPopup('赋权', roleEmpowerPageUrl, function () {
+
             }, 'md');
         }
     };

@@ -1,6 +1,5 @@
 package com.controller;
 
-import ch.qos.logback.core.util.FileUtil;
 import com.utils.FileUtils;
 import com.common.exception.manage.Message;
 import com.common.utils.DateUtils;
@@ -13,12 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +39,12 @@ public class StudyController extends BaseController {
         Account user = ShiroUtils.getLoginUser();
         model.addAttribute("userName", user.getUsername());
         return "study/studyPlan";
+    }
+
+    @RequestMapping("uploadPage")
+    public String uploadPage(Model model, String id) {
+        model.addAttribute("id", id);
+        return "study/upload";
     }
 
     @RequestMapping("studyPlanAdd")
@@ -175,34 +178,16 @@ public class StudyController extends BaseController {
 
     }
 
-    //处理文件上传
-    @RequestMapping(value = "/testuploadimg", method = RequestMethod.POST)
-    public @ResponseBody
-    String uploadImg(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-        String contentType = file.getContentType();
-        String fileName = file.getOriginalFilename(); /*System.out.println("fileName-->" + fileName);
-        System.out.println("getContentType-->"+contentType);*/
-        String filePath = request.getSession().getServletContext().getRealPath("imgupload/");
+    @RequestMapping(value = "uploadFile", produces = JSON + CHARSET)
+    @ResponseBody
+    public Message uploadFile(@RequestParam("file") MultipartFile file, StudyPlan studyPlan) {
+        Message ms = new Message();
         try {
-            FileUtils.uploadFile(file.getBytes(), filePath, fileName);
+            studyService.uplaodFile(file, studyPlan);
         } catch (Exception e) {
+            ms.setCode(2);
             e.printStackTrace();
         }
-        boolean isTure = Math.random() > 0.5 ? true : false;
-        for (int i = 0; i < 1000; i++) {
-            circle:for (int j = 0; j < 100; j++) {
-                for (int k = 0; k < 10; k++) {
-                    if (isTure) {
-                       // continue;
-                        // break;
-                        break circle;
-                    }
-                    System.out.println(123);
-                }
-                System.out.println(456);
-            }
-            System.out.println(789);
-        }
-        return "uploadimg success";
+        return ms;
     }
 }
