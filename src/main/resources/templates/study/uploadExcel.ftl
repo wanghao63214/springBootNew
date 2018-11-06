@@ -1,9 +1,8 @@
 <div class="contentpanel container-fluid">
     <div class="panel panel-default">
         <div class="panel-body panel-body-nopadding ">
-            <form id="popWindowForm"  enctype="multipart/form-data" action='study/uploadFile' method="post"  onkeydown="if(event.keyCode==13){return false;}"
+            <form id="popWindowForm"  enctype="multipart/form-data" action='study/uploadExcel' method="post"  onkeydown="if(event.keyCode==13){return false;}"
                   class="form-horizontal -form-bordered " autocomplete="off"  target="_self">
-                <input type="hidden" name="id" value=${id}>
                 <div class="form-group">
                     <label class="col-xs-2 control-label">上传文件：</label>
                     <div class="col-xs-4">
@@ -28,7 +27,7 @@
         _window._showShade();
         var options = {
             type: 'post',
-            url: 'study/uploadFile',
+            url: 'study/uploadExcel',
             success: function () {
                 _window._closeShade();
                 _window._colsePopup();

@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.InputStream;
 import java.util.*;
 
@@ -63,6 +64,7 @@ public class StudyService {
         }
         return map;
     }
+
     /**
      * wh
      */
@@ -71,7 +73,7 @@ public class StudyService {
         try {
             StudyPlanDetailExample studyPlanDetailExample = new StudyPlanDetailExample();
             StudyPlanDetailExample.Criteria criteria = studyPlanDetailExample.createCriteria();
-            if (!(null == studyPlanDetail.getStudyPlanId() ||  studyPlanDetail.getStudyPlanId().equals(""))) {
+            if (!(null == studyPlanDetail.getStudyPlanId() || studyPlanDetail.getStudyPlanId().equals(""))) {
                 criteria.andStudyPlanIdEqualTo(studyPlanDetail.getStudyPlanId());
             }
             map.put("total", studyPlanDetailMapper.countByExample(studyPlanDetailExample));
@@ -86,10 +88,10 @@ public class StudyService {
         return map;
     }
 
-    public void insert(StudyPlan studyPlan){
-        try{
+    public void insert(StudyPlan studyPlan) {
+        try {
             studyPlanMapper.insert(studyPlan);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -104,19 +106,20 @@ public class StudyService {
         }
     }
 
-    public String dialResultRedisQuery(String key){
+    public String dialResultRedisQuery(String key) {
         return redisUtils.getString(key);
     }
 
     /**
      * 上传文件
+     *
      * @param file
      * @param studyPlan
      * @throws Exception
      */
-    public void uplaodFile(MultipartFile file, StudyPlan studyPlan) throws  Exception{
+    public void uplaodFile(MultipartFile file, StudyPlan studyPlan) throws Exception {
         try {
-            if(file == null){
+            if (file == null) {
                 throw new Exception("文件不能为空");
             }
             String realPath = "/root/download/" + studyPlan.getId() + "/";//默认linux系统
@@ -136,16 +139,18 @@ public class StudyService {
             throw new Exception(e);
         }
     }
+
     /**
      * 处理上传execel文件
+     *
      * @param file
-     * @param studyPlan
      * @throws Exception
      */
-    public void batchImport(MultipartFile file, StudyPlan studyPlan) throws  Exception{
+    public void batchImport(MultipartFile file) throws Exception {
+
         String fileName = file.getOriginalFilename();
         boolean notNull = false;
-        List<Account> userList = new ArrayList<Account>();
+        List<StudyPlan> studyPlanList = new ArrayList<StudyPlan>();
         if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
             throw new Exception("上传文件格式不正确");
         }
@@ -161,42 +166,39 @@ public class StudyService {
             wb = new XSSFWorkbook(is);
         }
         Sheet sheet = wb.getSheetAt(0);
-        if(sheet!=null){
+        if (sheet != null) {
             notNull = true;
         }
-        Account user;
+        StudyPlan studyPlan;
         for (int r = 1; r <= sheet.getLastRowNum(); r++) {
             Row row = sheet.getRow(r);
-            if (row == null){
+            if (row == null) {
                 continue;
             }
-            user = new Account();
-            if( row.getCell(0).getCellType() !=1){
-                throw new Exception("导入失败(第"+(r+1)+"行,姓名请设为文本格式)");
+            studyPlan = new StudyPlan();
+            String content = row.getCell(0).getStringCellValue();
+            if (content == null || content.isEmpty()) {
+                throw new Exception("导入失败(第" + (r + 1) + "行,培训内容未填写)");
             }
-            String name = row.getCell(0).getStringCellValue();
-            if(name == null || name.isEmpty()){
-                throw new Exception("导入失败(第"+(r+1)+"行,姓名未填写)");
-            }
-            row.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
-            String phone = row.getCell(1).getStringCellValue();
-            if(phone==null || phone.isEmpty()){
-                throw new Exception("导入失败(第"+(r+1)+"行,电话未填写)");
-            }
-            String add = row.getCell(2).getStringCellValue();
-            if(add==null){
-                throw new Exception("导入失败(第"+(r+1)+"行,不存在此单位或单位未填写)");
-            }
-
             Date date;
-            if(row.getCell(3).getCellType() !=0){
-                throw new Exception("导入失败(第"+(r+1)+"行,入职日期格式不正确或未填写)");
-            }else{
-                date = row.getCell(3).getDateCellValue();
+            if (row.getCell(1).getCellType() != 0) {
+                throw new Exception("导入失败(第" + (r + 1) + "行,操作日期格式不正确或未填写)");
+            } else {
+                date = row.getCell(1).getDateCellValue();
             }
-            String des = row.getCell(4).getStringCellValue();
-            user.setUsername(name);
-            userList.add(user);
+            row.getCell(2).setCellType(Cell.CELL_TYPE_STRING);
+            String url = row.getCell(2).getStringCellValue();
+            if (url == null || url.isEmpty()) {
+                throw new Exception("导入失败(第" + (r + 1) + "行,url未填写)");
+            }
+            studyPlan.setContent(content);
+            studyPlan.setOperateDate(date);
+            studyPlan.setAttachmentUrl(url);
+            studyPlanList.add(studyPlan);
+        }
+        System.out.println(studyPlanList.size());
+        for(StudyPlan sp : studyPlanList){
+            System.out.println(sp.toString());
         }
     /*    for (User userResord : userList) {
             String name = userResord.getName();

@@ -5,15 +5,14 @@
 <div class="contentpanel containermain">
     <div class="tab-content">
         <div>
-            <form class="form-inline" action="#" onkeydown="if(event.keyCode==13){return false;}">
+            <form class="form-inline" action="study/uploadExcel" id="form" onkeydown="if(event.keyCode==13){return false;}">
                 <shiro:hasPermission name="role:add">
                     <div class="form-group" style="float:left;padding-top:10px;margin-right:10px;">
                         <a id="roleAddItem" class="btn btn-primary btn-sm" href="javascript:void(0);"
-                           onclick="javascript:Container._add()" " style="width: 95px;">新增计划</a>
+                             style="width: 95px;">新增计划</a>
                     </div>
                     <div class="form-group" style="float:left;padding-top:10px;margin-right:10px;">
-                        <a id="roleAddItem" class="btn btn-primary btn-sm" href="javascript:void(0);"
-                           onclick="javascript:Container._add()" " style="width: 95px;">execel批量下载</a>
+                        <a id="roleAddItem" class="btn btn-primary btn-sm" href="javascript:void(0);"  onclick="save()" style="width: 95px;">execel批量下载</a>
                     </div>
                 </shiro:hasPermission>
                 <div style="float:right;margin-right: 20px;margin-top: 10px;margin-bottom: 10px;">
@@ -42,6 +41,7 @@
     var subQueryUrl = 'study/subStudyPlanQuery.do';
     var addUrl = 'study/studyPlanAdd';
     var uploadUrl = 'study/uploadPage';
+    var uploadExcel= 'study/uploadExcelPage';
     //事件监听
     window.operateEvents = {
         'click .updateFile': function (e, value, row, index) {
@@ -310,5 +310,10 @@
             '<a class="updateFile" href="javascript:void(0)" title="上传">上传',
             '</a>'
         ].join('');
+    }
+    function save() {
+        _window._showPopup('excel上传', uploadExcel, function () {
+            Container._search();
+        }, 'md');
     }
 </script>

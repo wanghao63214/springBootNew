@@ -47,6 +47,11 @@ public class StudyController extends BaseController {
         return "study/upload";
     }
 
+    @RequestMapping("uploadExcelPage")
+    public String uploadExcelPage(Model model) {
+        return "study/uploadExcel";
+    }
+
     @RequestMapping("studyPlanAdd")
     public String studyPlanAdd(Model model) {
         return "study/studyPlanAdd";
@@ -184,6 +189,18 @@ public class StudyController extends BaseController {
         Message ms = new Message();
         try {
             studyService.uplaodFile(file, studyPlan);
+        } catch (Exception e) {
+            ms.setCode(2);
+            e.printStackTrace();
+        }
+        return ms;
+    }
+    @RequestMapping(value = "uploadExcel", produces = JSON + CHARSET)
+    @ResponseBody
+    public Message uploadExcel(@RequestParam("file") MultipartFile file) {
+        Message ms = new Message();
+        try {
+            studyService.batchImport(file);
         } catch (Exception e) {
             ms.setCode(2);
             e.printStackTrace();
