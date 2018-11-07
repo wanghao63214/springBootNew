@@ -28,6 +28,11 @@ spring:
         max-wait: -1      # 连接池最大阻塞等待时间（使用负值表示没有限制）
         max-idle: 10      # 连接池中的最大空闲连接
         min-idle: 5       # 连接池中的最小空闲连接
+  # 文件上传大小限制
+  servlet:
+    multipart:
+      max-file-size: 6Mb
+      max-request-size: 6Mb
 mybatis:
   config-locations:
     classpath: mybatis/mybatis-config.xml

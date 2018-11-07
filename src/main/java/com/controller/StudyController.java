@@ -181,6 +181,12 @@ public class StudyController extends BaseController {
 
     }
 
+    /**
+     * 文件上传
+     * @param file
+     * @param studyPlan
+     * @return
+     */
     @RequestMapping(value = "uploadFile", produces = JSON + CHARSET)
     @ResponseBody
     public Message uploadFile(@RequestParam("file") MultipartFile file, StudyPlan studyPlan) {
@@ -193,6 +199,12 @@ public class StudyController extends BaseController {
         }
         return ms;
     }
+
+    /**
+     * Excel表格上传批量保存
+     * @param file
+     * @return
+     */
     @RequestMapping(value = "uploadExcel", produces = JSON + CHARSET)
     @ResponseBody
     public Message uploadExcel(@RequestParam("file") MultipartFile file) {

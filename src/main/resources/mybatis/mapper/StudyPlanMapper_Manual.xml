@@ -53,9 +53,9 @@
 
   </select>
   <insert id="batchInsert" parameterType="java.util.List">
-    insert into _study_plan(_content, _attachment_url) values
+    insert into _study_plan(_content, _operate_date, _attachment_url) values
     <foreach collection="list" item="item" index="index" separator=",">
-      (#{item.content,jdbcType=VARCHAR},#{item.attachmentUrl,jdbcType=VARCHAR})
+      (#{item.content,jdbcType=VARCHAR},#{item.operateDate,jdbcType=DATE},#{item.attachmentUrl,jdbcType=VARCHAR})
     </foreach>
   </insert>
 </mapper>

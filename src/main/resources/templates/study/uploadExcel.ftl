@@ -28,6 +28,7 @@
             type: 'post',
             url: 'study/uploadExcel',
             success: function (data) {
+                alert();
                 if (data.code == 1) {
                     _window._colsePopup();
                 }else{

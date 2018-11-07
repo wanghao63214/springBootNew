@@ -29,7 +29,10 @@
         var options = {
             type: 'post',
             url: 'study/uploadFile',
-            success: function () {
+            success: function (data) {
+                if(data.code == 2){
+                    _window._alert("提示", data.msg);
+                }
                 _window._closeShade();
                 _window._colsePopup();
             }
