@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.*;
 import java.io.InputStream;
 import java.util.*;
 
@@ -124,6 +125,9 @@ public class StudyService {
      * @throws Exception
      */
     public void uplaodFile(MultipartFile file, StudyPlan studyPlan) throws Exception {
+        String extName = null;
+        //允许上传的文件类型
+        String fileType = "jpg,jpeg,gif,png,bmp";
         try {
             if (file == null) {
                 throw new Exception("文件不能为空");
@@ -134,8 +138,13 @@ public class StudyService {
             if (operateSystem.toLowerCase().startsWith("win")) {
                 realPath = "D:\\testFolder\\" + studyPlan.getId() + "\\";
             }
-            String contentType = file.getContentType();
             String fileName = file.getOriginalFilename();
+            //判断是否为允许上传的文件类型
+            //获取文件后缀名
+            extName = fileName.substring(fileName.indexOf(".") + 1).toLowerCase().trim();
+            if (!Arrays.<String>asList(fileType.split(",")).contains(extName)) {
+                throw new Exception("文件类型不正确");
+            }
             FileUtils.uploadFile(file.getBytes(), realPath, fileName);
             //如果成功保存路径到数据库
             studyPlan.setAttachmentUrl(fileName);
@@ -195,7 +204,7 @@ public class StudyService {
     private void inspectorAndAdd(int r, Row row, StudyPlan studyPlan) throws Exception {
         String[] strArray = {"content", "operateDate", "url"};
         Cell cell = null;
-        for(int i = 0; i<row.getLastCellNum();i++){
+        for (int i = 0; i < row.getLastCellNum(); i++) {
             cell = row.getCell(i);
             //判断是否为空
             if (null == cell || cell.getCellType() == Cell.CELL_TYPE_BLANK || cell.toString().trim().isEmpty()) {

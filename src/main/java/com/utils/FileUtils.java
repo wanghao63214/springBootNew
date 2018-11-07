@@ -8,6 +8,7 @@ public class FileUtils {
         if (!targetFile.exists()) {
             targetFile.mkdirs();
         }
+        //FileOutputStream（String name，boolean append）为末尾添加
         FileOutputStream out = new FileOutputStream(filePath + fileName);
         out.write(file);
         out.flush();

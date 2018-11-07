@@ -1,12 +1,12 @@
 package com.common.exception;
 
 import com.common.exception.manage.Message;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class MyControllerAdvice {
     /**
      * 拦截捕捉文件过大异常

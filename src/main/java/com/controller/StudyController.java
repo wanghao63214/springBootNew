@@ -195,6 +195,7 @@ public class StudyController extends BaseController {
             studyService.uplaodFile(file, studyPlan);
         } catch (Exception e) {
             ms.setCode(2);
+            ms.setMsg(e.getMessage());
             e.printStackTrace();
         }
         return ms;
