@@ -36,8 +36,6 @@ public class StudyController extends BaseController {
 
     @RequestMapping("studyPlan")
     public String studyPlan(Model model) {
-        Account user = ShiroUtils.getLoginUser();
-        model.addAttribute("userName", user.getUsername());
         return "study/studyPlan";
     }
 
@@ -203,6 +201,7 @@ public class StudyController extends BaseController {
             studyService.batchImport(file);
         } catch (Exception e) {
             ms.setCode(2);
+            ms.setMsg(e.getMessage());
             e.printStackTrace();
         }
         return ms;

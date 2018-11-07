@@ -9,10 +9,10 @@
                 <shiro:hasPermission name="role:add">
                     <div class="form-group" style="float:left;padding-top:10px;margin-right:10px;">
                         <a id="roleAddItem" class="btn btn-primary btn-sm" href="javascript:void(0);"
-                             style="width: 95px;">新增计划</a>
+                             style="width: 95px;" onclick="Container._add()">新增计划</a>
                     </div>
                     <div class="form-group" style="float:left;padding-top:10px;margin-right:10px;">
-                        <a id="roleAddItem" class="btn btn-primary btn-sm" href="javascript:void(0);"  onclick="save()" style="width: 95px;">execel批量下载</a>
+                        <a id="roleAddItem" class="btn btn-primary btn-sm" href="javascript:void(0);"  onclick="save()" >execel批量上传</a>
                     </div>
                 </shiro:hasPermission>
                 <div style="float:right;margin-right: 20px;margin-top: 10px;margin-bottom: 10px;">
@@ -159,9 +159,9 @@
             subTable._table = $detail.html('<table></table>').find('table');
             subTable._query(row._id);
         },
-        _export: function () {
+    /*    _export: function () {
             $('#agQueryForm').attr("action", 'ag/query_export.do?loginName=' + _userName).submit();
-        },
+        },*/
         _changestatus: function (row) {
             _window._showShade();
             $.ajax({

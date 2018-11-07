@@ -24,7 +24,7 @@
     <div class="leftpanel">
         <!---------------------------------------------- leftpanel -----top ------------------------------------->
         <div class="logopanel text-c">
-            <img src="${base}images/logo/logo.png" >
+            <img src="${base}images/logo/logo.gif" >
         </div>
         <!---------------------------------------------- leftpanel -----menu ------------------------------------->
         <div class="leftpanelinner" >

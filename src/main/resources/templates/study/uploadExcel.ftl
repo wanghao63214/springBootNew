@@ -24,13 +24,15 @@
 </div>
 <script>
     function popWindowSave() {
-        _window._showShade();
         var options = {
             type: 'post',
             url: 'study/uploadExcel',
-            success: function () {
-                _window._closeShade();
-                _window._colsePopup();
+            success: function (data) {
+                if (data.code == 1) {
+                    _window._colsePopup();
+                }else{
+                    _window._alert("提示",data.msg);
+                }
             }
         };
         $("#popWindowForm").ajaxSubmit(options);

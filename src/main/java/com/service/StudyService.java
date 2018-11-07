@@ -147,69 +147,72 @@ public class StudyService {
      * @throws Exception
      */
     public void batchImport(MultipartFile file) throws Exception {
-
-        String fileName = file.getOriginalFilename();
-        boolean notNull = false;
-        List<StudyPlan> studyPlanList = new ArrayList<StudyPlan>();
-        if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
-            throw new Exception("上传文件格式不正确");
-        }
-        boolean isExcel2003 = true;
-        if (fileName.matches("^.+\\.(?i)(xlsx)$")) {
-            isExcel2003 = false;
-        }
-        InputStream is = file.getInputStream();
-        Workbook wb = null;
-        if (isExcel2003) {
-            wb = new HSSFWorkbook(is);
-        } else {
-            wb = new XSSFWorkbook(is);
-        }
-        Sheet sheet = wb.getSheetAt(0);
-        if (sheet != null) {
-            notNull = true;
-        }
-        StudyPlan studyPlan;
-        for (int r = 1; r <= sheet.getLastRowNum(); r++) {
-            Row row = sheet.getRow(r);
-            if (row == null) {
-                continue;
+        String fileName = null;
+        List<StudyPlan> studyPlanList = null;
+        try {
+            fileName = file.getOriginalFilename();
+            studyPlanList = new ArrayList<StudyPlan>();
+            if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
+                throw new Exception("上传文件格式不正确");
             }
-            studyPlan = new StudyPlan();
-            String content = row.getCell(0).getStringCellValue();
-            if (content == null || content.isEmpty()) {
-                throw new Exception("导入失败(第" + (r + 1) + "行,培训内容未填写)");
+            boolean isExcel2003 = fileName.matches("^.+\\.(?i)(xlsx)$") ? false : true;
+            InputStream is = file.getInputStream();
+            Workbook wb = (isExcel2003 == true) ? new HSSFWorkbook(is) : new XSSFWorkbook(is);
+            Sheet sheet = wb.getSheetAt(0);
+            if (null == sheet) {
+                throw new Exception("Excel文件出错");
             }
-            Date date;
-            if (row.getCell(1).getCellType() != 0) {
-                throw new Exception("导入失败(第" + (r + 1) + "行,操作日期格式不正确或未填写)");
-            } else {
-                date = row.getCell(1).getDateCellValue();
+            StudyPlan studyPlan;
+            //跳过表头标题，循环sheet中数据
+            for (int r = 1; r <= sheet.getLastRowNum(); r++) {
+                Row row = sheet.getRow(r);
+                if (row == null) continue;
+                studyPlan = new StudyPlan();
+                //判断是否有未填写的并保存到StudyPlan中
+                inspectorAndAdd(r, row, studyPlan);
+                //添加到StudyPlan集合中
+                studyPlanList.add(studyPlan);
             }
-            row.getCell(2).setCellType(Cell.CELL_TYPE_STRING);
-            String url = row.getCell(2).getStringCellValue();
-            if (url == null || url.isEmpty()) {
-                throw new Exception("导入失败(第" + (r + 1) + "行,url未填写)");
-            }
-            studyPlan.setContent(content);
-            studyPlan.setOperateDate(date);
-            studyPlan.setAttachmentUrl(url);
-            studyPlanList.add(studyPlan);
+            //批量持久化
+            StudyPlanMapper_Manual.batchInsert(studyPlanList);
+        } catch (Exception e) {
+            throw new Exception(e);
         }
-        System.out.println(studyPlanList.size());
-        for(StudyPlan sp : studyPlanList){
-            System.out.println(sp.toString());
-        }
-    /*    for (User userResord : userList) {
-            String name = userResord.getName();
-            int cnt = userMapper.selectByName(name);
-            if (cnt == 0) {
-                userMapper.addUser(userResord);
-                System.out.println(" 插入 "+userResord);
-            } else {
-                userMapper.updateUserByName(userResord);
-                System.out.println(" 更新 "+userResord);
-            }
-        }*/
     }
+
+    /**
+     * 检查excel 中每个cell 和 添加到pojo
+     *
+     * @param r
+     * @throws Exception
+     */
+    private void inspectorAndAdd(int r, Row row, StudyPlan studyPlan) throws Exception {
+        String[] strArray = {"content", "operateDate", "url"};
+        Cell cell = null;
+        for(int i = 0; i<row.getLastCellNum();i++){
+            cell = row.getCell(i);
+            //判断是否为空
+            if (null == cell || cell.getCellType() == Cell.CELL_TYPE_BLANK || cell.toString().trim().isEmpty()) {
+                throw new Exception("导入失败(第" + (r + 1) + "行)" + strArray[i] + "为空");
+            }
+            //每一列的判断
+            switch (i) {
+                case 0:
+                    cell.setCellType(cell.CELL_TYPE_STRING);
+                    studyPlan.setContent(cell.getStringCellValue().trim());
+                    break;
+                case 1:
+                    if (cell.getCellType() != cell.CELL_TYPE_NUMERIC) {
+                        throw new Exception("导入失败(第" + (r + 1) + "行,)" + strArray[i] + "格式错误");
+                    }
+                    studyPlan.setOperateDate(cell.getDateCellValue());
+                    break;
+                case 2:
+                    cell.setCellType(cell.CELL_TYPE_STRING);
+                    studyPlan.setAttachmentUrl(cell.getStringCellValue().trim());
+                    break;
+            }
+        }
+    }
+
 }
