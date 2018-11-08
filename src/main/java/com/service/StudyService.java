@@ -32,7 +32,7 @@ import java.util.*;
  * @author zhangge
  */
 @Service
-public class StudyService implements ExcelUtils.Inspector {
+public class StudyService implements ExcelUtils.Inspector<StudyPlan> {
 
     @Autowired
     private StudyPlanMapper studyPlanMapper;
@@ -227,11 +227,6 @@ public class StudyService implements ExcelUtils.Inspector {
                 throw new Exception("导入失败：第" + (r + 1) + "行、 第" + (i + 1) + "列(" + str + ")为空");
             }
         }
-    }
-
-    @Override
-    public void inspectorAndAdd(int r, Row row, int columnNum, Object o, String[] strArray, List list) throws Exception {
-
     }
 
     class FreshAgent {
