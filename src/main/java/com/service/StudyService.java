@@ -6,6 +6,7 @@ import com.dao.mapper.StudyPlanDetailMapper_Manual;
 import com.dao.mapper.StudyPlanMapper;
 import com.dao.mapper.StudyPlanMapper_Manual;
 import com.github.pagehelper.PageHelper;
+import com.utils.ExcelUtils;
 import com.utils.FileUtils;
 import com.utils.RedisUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -31,7 +32,7 @@ import java.util.*;
  * @author zhangge
  */
 @Service
-public class StudyService {
+public class StudyService implements ExcelUtils.Inspector {
 
     @Autowired
     private StudyPlanMapper studyPlanMapper;
@@ -162,32 +163,12 @@ public class StudyService {
      * @throws Exception
      */
     public void batchImport(MultipartFile file) throws Exception {
-        String fileName = null;
         List<StudyPlan> studyPlanList = null;
+        StudyPlan studyPlan = null;
         try {
-            fileName = file.getOriginalFilename();
-            studyPlanList = new ArrayList<StudyPlan>();
-            if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
-                throw new Exception("上传文件格式不正确");
-            }
-            boolean isExcel2003 = fileName.matches("^.+\\.(?i)(xlsx)$") ? false : true;
-            InputStream is = file.getInputStream();
-            Workbook wb = (isExcel2003 == true) ? new HSSFWorkbook(is) : new XSSFWorkbook(is);
-            Sheet sheet = wb.getSheetAt(0);
-            if (null == sheet) {
-                throw new Exception("Excel文件出错");
-            }
-            StudyPlan studyPlan;
-            //跳过表头标题，循环sheet中数据
-            for (int r = 1; r <= sheet.getLastRowNum(); r++) {
-                Row row = sheet.getRow(r);
-                if (row == null) continue;
-                studyPlan = new StudyPlan();
-                //判断是否有未填写的并保存到StudyPlan中
-                inspectorAndAdd(r, row, studyPlan);
-                //添加到StudyPlan集合中
-                studyPlanList.add(studyPlan);
-            }
+            studyPlanList = new ArrayList<>();
+            ExcelUtils excelUtils = new ExcelUtils<StudyPlan>();
+            excelUtils.batchImport(file, studyPlanList, studyPlan, this);
             //批量持久化
             StudyPlanMapper_Manual.batchInsert(studyPlanList);
         } catch (Exception e) {
@@ -201,8 +182,64 @@ public class StudyService {
      * @param r
      * @throws Exception
      */
-    private void inspectorAndAdd(int r, Row row, StudyPlan studyPlan) throws Exception {
-        String[] strArray = {"content", "operateDate", "url"};
+    public void inspectorAndAdd(int r, Row row, int columnNum, StudyPlan studyPlan, String[] strArray, List<StudyPlan> list) throws Exception {
+        Cell cell = null;
+        studyPlan = new StudyPlan();
+        for (int i = 0; i < columnNum; i++) {
+            cell = row.getCell(i);
+            if (r == 0) {//判断是第一行，标题行
+                inspectNull(cell, r, i, null);
+                cell.setCellType(Cell.CELL_TYPE_STRING);
+                strArray[i] = cell.getStringCellValue();
+            } else {//非标题行的检验
+                //判断是否为空
+                inspectNull(cell, r, i, strArray[i]);
+                //每一列的判断
+                switch (i) {
+                    case 0:
+                        cell.setCellType(cell.CELL_TYPE_STRING);
+                        studyPlan.setContent(cell.getStringCellValue().trim());
+                        break;
+                    case 1:
+                        if (cell.getCellType() != cell.CELL_TYPE_NUMERIC) {
+                            throw new Exception("导入失败(第" + (r + 2) + "行,)" + strArray[i] + "格式错误");
+                        }
+                        studyPlan.setOperateDate(cell.getDateCellValue());
+                        break;
+                    case 2:
+                        cell.setCellType(cell.CELL_TYPE_STRING);
+                        studyPlan.setAttachmentUrl(cell.getStringCellValue().trim());
+                        break;
+                }
+
+            }
+        }
+        if (r != 0) {
+            list.add(studyPlan);
+        }
+    }
+
+    private void inspectNull(Cell cell, int r, int i, String str) throws Exception {
+        if (null == cell || cell.toString().trim().isEmpty()) {
+            if (null == str) {
+                throw new Exception("导入失败：第" + (r + 1) + "行、 第" + (i + 1) + "列标题为空");
+            } else {
+                throw new Exception("导入失败：第" + (r + 1) + "行、 第" + (i + 1) + "列(" + str + ")为空");
+            }
+        }
+    }
+
+    @Override
+    public void inspectorAndAdd(int r, Row row, int columnNum, Object o, String[] strArray, List list) throws Exception {
+
+    }
+
+    class FreshAgent {
+    }
+
+   /* private void inspectorAndAdd(int r, Row row, FreshAgent freshAgent) throws Exception {
+        String[] strArray = {"统计日期", "柜组", "url"};
+        //Arrays.stream(strArray);
         Cell cell = null;
         for (int i = 0; i < row.getLastCellNum(); i++) {
             cell = row.getCell(i);
@@ -228,6 +265,6 @@ public class StudyService {
                     break;
             }
         }
-    }
+    }*/
 
 }
