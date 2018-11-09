@@ -28,8 +28,8 @@
             type: 'post',
             url: 'study/uploadExcel',
             success: function (data) {
-                alert();
                 if (data.code == 1) {
+                    _window._alert("提示",data.msg);
                     _window._colsePopup();
                 }else{
                     _window._alert("提示",data.msg);
