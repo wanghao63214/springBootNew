@@ -168,7 +168,8 @@ public class StudyService implements ExcelUtils.Inspector<StudyPlan> {
         try {
             studyPlanList = new ArrayList<>();
             ExcelUtils excelUtils = new ExcelUtils<StudyPlan>();
-            excelUtils.batchImport(file, studyPlanList, studyPlan, this);
+            int titleRowNum = 1;
+            excelUtils.batchImport(file, titleRowNum, studyPlanList, studyPlan, this);
             //批量持久化
             StudyPlanMapper_Manual.batchInsert(studyPlanList);
         } catch (Exception e) {
@@ -182,12 +183,12 @@ public class StudyService implements ExcelUtils.Inspector<StudyPlan> {
      * @param r
      * @throws Exception
      */
-    public void inspectorAndAdd(int r, Row row, int columnNum, StudyPlan studyPlan, String[] strArray, List<StudyPlan> list) throws Exception {
+    public void inspectorAndAdd(int titleRowNum, int r, Row row, int columnNum, StudyPlan studyPlan, String[] strArray, List<StudyPlan> list) throws Exception {
         Cell cell = null;
         studyPlan = new StudyPlan();
         for (int i = 0; i < columnNum; i++) {
             cell = row.getCell(i);
-            if (r == 0) {//判断是第一行，标题行
+            if (r == titleRowNum) {//判断是第一行，标题行
                 inspectNull(cell, r, i, null);
                 cell.setCellType(Cell.CELL_TYPE_STRING);
                 strArray[i] = cell.getStringCellValue();
@@ -214,7 +215,7 @@ public class StudyService implements ExcelUtils.Inspector<StudyPlan> {
 
             }
         }
-        if (r != 0) {
+        if (r != titleRowNum) {
             list.add(studyPlan);
         }
     }
@@ -228,38 +229,4 @@ public class StudyService implements ExcelUtils.Inspector<StudyPlan> {
             }
         }
     }
-
-    class FreshAgent {
-    }
-
-   /* private void inspectorAndAdd(int r, Row row, FreshAgent freshAgent) throws Exception {
-        String[] strArray = {"统计日期", "柜组", "url"};
-        //Arrays.stream(strArray);
-        Cell cell = null;
-        for (int i = 0; i < row.getLastCellNum(); i++) {
-            cell = row.getCell(i);
-            //判断是否为空
-            if (null == cell || cell.getCellType() == Cell.CELL_TYPE_BLANK || cell.toString().trim().isEmpty()) {
-                throw new Exception("导入失败(第" + (r + 1) + "行)" + strArray[i] + "为空");
-            }
-            //每一列的判断
-            switch (i) {
-                case 0:
-                    cell.setCellType(cell.CELL_TYPE_STRING);
-                    studyPlan.setContent(cell.getStringCellValue().trim());
-                    break;
-                case 1:
-                    if (cell.getCellType() != cell.CELL_TYPE_NUMERIC) {
-                        throw new Exception("导入失败(第" + (r + 1) + "行,)" + strArray[i] + "格式错误");
-                    }
-                    studyPlan.setOperateDate(cell.getDateCellValue());
-                    break;
-                case 2:
-                    cell.setCellType(cell.CELL_TYPE_STRING);
-                    studyPlan.setAttachmentUrl(cell.getStringCellValue().trim());
-                    break;
-            }
-        }
-    }*/
-
 }

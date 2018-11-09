@@ -6,12 +6,13 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.InputStream;
 import java.util.List;
 
 public class ExcelUtils<T> {
 
-    public void batchImport(MultipartFile file, List<T> list, T t, Inspector inspector) throws Exception {
+    public void batchImport(MultipartFile file, int titleRowNum, List<T> list, T t, Inspector inspector) throws Exception {
 
         String fileName = null;
         try {
@@ -25,17 +26,19 @@ public class ExcelUtils<T> {
             Sheet sheet = wb.getSheetAt(0);
             if (null == sheet) {
                 throw new Exception("Excel文件出错");
+            }else if(null == sheet.getRow(titleRowNum)){
+                throw new Exception("标题行为空");
             }
-            int columnNum = sheet.getRow(0).getLastCellNum();
+            int columnNum = sheet.getRow(titleRowNum).getLastCellNum();
             String[] strArray = new String[columnNum];
             //跳过表头标题，循环sheet中数据
-            for (int r = 0; r <= sheet.getLastRowNum(); r++) {
+            for (int r = titleRowNum; r <= sheet.getLastRowNum(); r++) {
                 Row row = sheet.getRow(r);
                 if (row.getLastCellNum() > columnNum) {
                     throw new Exception("最后一列标题为空");
                 }
                 if (row == null) continue;
-                inspector.inspectorAndAdd(r, row, columnNum, t, strArray, list);
+                inspector.inspectorAndAdd(titleRowNum,r, row, columnNum, t, strArray, list);
             }
         } catch (Exception e) {
             throw new Exception(e);
@@ -43,6 +46,6 @@ public class ExcelUtils<T> {
     }
 
     public interface Inspector<T> {
-        void inspectorAndAdd(int r, Row row, int columnNum, T t, String[] strArray, List<T> list) throws Exception;
+        void inspectorAndAdd(int titleRowNum, int r, Row row, int columnNum, T t, String[] strArray, List<T> list) throws Exception;
     }
 }
