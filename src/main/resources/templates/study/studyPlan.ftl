@@ -207,12 +207,12 @@
                                         align: "center"
                                     },
                                     {
-                                        field: "_point", title: "知识点", visible: true, align: "center"
+                                        field: "point", title: "知识点", visible: true, align: "center"
                                     },
                                     {
-                                        field: "_question", title: "问题", visible: true, align: "center"
+                                        field: "question", title: "问题", visible: true, align: "center"
                                     }, {
-                                        field: "_use_case", title: "使用场景", visible: true, align: "center"
+                                        field: "useCase", title: "使用场景", visible: true, align: "center"
                                     }],
                                 queryParams: function (params) {
                                     params.studyPlanId = id;

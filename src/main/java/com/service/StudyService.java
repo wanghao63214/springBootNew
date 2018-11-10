@@ -2,28 +2,19 @@ package com.service;
 
 import com.dao.beans.*;
 import com.dao.mapper.StudyPlanDetailMapper;
-import com.dao.mapper.StudyPlanDetailMapper_Manual;
 import com.dao.mapper.StudyPlanMapper;
 import com.dao.mapper.StudyPlanMapper_Manual;
 import com.github.pagehelper.PageHelper;
 import com.utils.ExcelUtils;
 import com.utils.FileUtils;
+import com.utils.LambdaUtils;
 import com.utils.RedisUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.swing.*;
-import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -42,9 +33,6 @@ public class StudyService implements ExcelUtils.Inspector<StudyPlan> {
 
     @Autowired
     private StudyPlanDetailMapper studyPlanDetailMapper;
-
-    @Autowired
-    private StudyPlanDetailMapper_Manual studyPlanDetailMapper_Manual;
 
     @Autowired
     private RedisUtils redisUtils;
@@ -86,8 +74,8 @@ public class StudyService implements ExcelUtils.Inspector<StudyPlan> {
             }
             map.put("total", studyPlanDetailMapper.countByExample(studyPlanDetailExample));
             PageHelper.startPage((offset / limit) + 1, limit);//startPage, PageSize
-            List<Map<String, Object>> rows = studyPlanDetailMapper_Manual.selectListMap(studyPlanDetailExample);
-            map.put("rows", rows);
+            List<StudyPlanDetail> list = studyPlanDetailMapper.selectByExample(studyPlanDetailExample);
+            map.put("rows", new LambdaUtils<StudyPlanDetail>().ListObjectToListMap(list));
         } catch (Exception e) {
             e.printStackTrace();
             map.put("total", 0);
