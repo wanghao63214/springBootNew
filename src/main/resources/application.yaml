@@ -33,6 +33,16 @@ spring:
     multipart:
       max-file-size: 6Mb
       max-request-size: 6Mb
+  dubbo:
+    application:
+      name: service-provider
+    protocal:
+      name: dubbo
+      port: 20880
+    scan: com.dubbo
+    registry:
+      address: 94.191.100.44
+      port: 2181
 mybatis:
   config-locations:
     classpath: mybatis/mybatis-config.xml
