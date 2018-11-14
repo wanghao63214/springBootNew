@@ -16,6 +16,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println("develop branch created");
         System.err.println("服务提供者------>>启动完毕");
     }
 }
